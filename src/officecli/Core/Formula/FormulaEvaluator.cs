@@ -1036,6 +1036,8 @@ internal partial class FormulaEvaluator
         // A LET/LAMBDA-bound name invoked as f(args).
         if (_bindings.TryGetValue(name, out var boundFn) && boundFn.IsLambda)
             return InvokeLambda((Lambda)boundFn.LambdaValue!, ParseCallArgs(t, ref p));
+        if (name is "IF" or "IFERROR" or "IFNA" or "IFS" or "CHOOSE" or "SWITCH")
+            return EvalLazyBranchFunction(name, t, ref p);
 
         var args = new List<object>();
         var argIdx = 0;
