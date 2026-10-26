@@ -1122,7 +1122,7 @@ internal partial class FormulaEvaluator
                 // Empty arg (immediate comma or close-paren after a comma) — Excel
                 // treats omitted args as 0 for numeric-arg functions like OFFSET.
                 if (p < t.Count && (t[p].Type == TT.Comma || t[p].Type == TT.RParen))
-                { args.Add(FormulaResult.Number(0)); }
+                { args.Add(name == "OFFSET" && argIdx >= 3 ? OmittedArg : FormulaResult.Number(0)); }
                 else if (((argIdx == 0 && name is "OFFSET" or "ISREF" or "ISFORMULA" or "SHEET" or "ROW" or "COLUMN")
                           || (argIdx == 1 && name is "CELL"))
                          && TryParseRefArg(t, ref p) is { } refArg)
